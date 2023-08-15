@@ -1,4 +1,26 @@
 const makeWASocket = require("@whiskeysockets/baileys").default;
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys");
+const util = require("util");
+const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
+const logger = require("@whiskeysockets/baileys/lib/Utils/logger").default;
+const pino = require("pino");
+const gp = ["254739168811"];
+const fs = require("fs");
+const figlet = require("figlet");
+const chalk = require("chalk");
+const os = require("os");
+const speed = require("performance-now");
+const timestampe = speed();
+const dreadedspeed = speed() - timestampe;
+
+const spinnies = new (require('spinnies'))();
+
+const { Boom } = require("@hapi/boom");
+const color = (text, color) => {
+  return !color ? chalk.green(text) : chalk.keyword(color)(text);
+};
+
+const makeWASocket = require("@whiskeysockets/baileys").default;
 const { proto, jidDecode, useMultiFileAuthState } = require("@whiskeysockets/baileys");
 const pino = require("pino");
 const chalk = require("chalk");
