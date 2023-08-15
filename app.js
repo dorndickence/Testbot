@@ -1,4 +1,3 @@
-const makeWASocket = require("@whiskeysockets/baileys").default;
 const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys");
 const util = require("util");
 const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
@@ -21,47 +20,51 @@ const color = (text, color) => {
 };
 
 const makeWASocket = require("@whiskeysockets/baileys").default;
-const { proto, jidDecode, useMultiFileAuthState } = require("@whiskeysockets/baileys");
-const pino = require("pino");
-const chalk = require("chalk");
-const figlet = require("figlet");
 
 async function main() {
+  const { state, saveCreds } = await useMultiFileAuthState('session');
   console.log(
-    chalk.green(
-      figlet.textSync("4ORTY6YXbot", {
+    color(
+      figlet.textSync("MICROBOT46", {
         font: "Standard",
         horizontalLayout: "default",
         verticalLayout: "default",
         whitespaceBreak: false,
-      })
+      }),
+      "orange"
     )
   );
-
-  const { state, saveCreds } = await useMultiFileAuthState('session');
 
   const sock = makeWASocket({
     logger: pino({
       level: 'silent'
     }),
     printQRInTerminal: true,
-    browser: ['4ORTY6YXbot', 'safari', '1.0.0'],
+    browser: ['Dreaded Active', 'safari', '1.0.0'],
     auth: state,
     qrTimeout: 20000000,
   });
 
-  sock.ev.on('qr', saveCreds);
-
   sock.ev.on('messages.upsert', async chatUpdate => {
-    const m = chatUpdate.messages[0];
+    m = chatUpdate.messages[0];
+    m.chat = m.key.remoteJid;
+    m.fromMe = m.key.fromMe;
+    m.sender = sock.decodeJid((m.fromMe && sock.user.id) || m.participant || m.key.participant || m.chat);
+
+    const groupMetadata = m.isGroup ? await sock.groupMetadata(m.chat).catch((e) => {}) : "";
+    const groupName = m.isGroup ? groupMetadata.subject : "";
+
     if (!m.message) return;
 
-    const sender = sock.decodeJid(m.key.remoteJid);
-    const statusText = m.message.conversation || '';
-    
-    console.log(`Received a status update from ${sender}: ${statusText}`);
+    if (m.chat.endsWith('@s.whatsapp.net')) {
+      sock.sendPresenceUpdate('recording', m.chat)
+    } if (m.chat.endsWith('broadcast')) {
+      sock.readMessages([m.key]);
+      const status = '𝗚𝗿𝗮𝗽𝗵𝗶𝗰𝘀 𝗗𝗲𝘀𝗶𝗴𝗻🎨 || </𝗙𝗿𝗼𝗻𝘁-𝗲𝗻𝗱 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗺𝗲𝗻𝘁>👨‍💻'
+      await sock.updateProfileStatus(status);
+    }
   });
-
+  
   sock.decodeJid = (jid) => {
     if (!jid) return jid;
     if (/:\d+@/gi.test(jid)) {
@@ -82,12 +85,19 @@ async function main() {
       });
     }
     if (connection === 'connecting') {
-      console.log('Connecting Now...');
+      spinnies.add('start', {
+        text: 'Connecting Now. . .'
+      });
     } else if (connection === 'open') {
-      console.log(`Successfully Connected. You have logged in as ${sock.user.name}`);
+      spinnies.succeed('start', {
+        text: `Successfully Connected. You have logged in as ${sock.user.name}`
+      });
     } else if (connection === 'close') {
       if (lastDisconnect.error?.output?.statusCode === 401) {
-        console.log(`Can't connect!`);
+        spinnies.fail('start', {
+          text: `Can't connect!`
+        });
+
         process.exit(0);
       } else {
         main().catch(() => main());
@@ -95,7 +105,7 @@ async function main() {
     }
   });
 
-
+  sock.ev.on('creds.update', saveCreds);
 }
 
 main();
