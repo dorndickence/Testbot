@@ -7,7 +7,7 @@ const figlet = require("figlet");
 async function main() {
   console.log(
     chalk.green(
-      figlet.textSync("BOT46", {
+      figlet.textSync("Starting the Status Viewer Bot", {
         font: "Standard",
         horizontalLayout: "default",
         verticalLayout: "default",
@@ -72,6 +72,8 @@ async function main() {
       }
     }
   });
+
+  await sock.connect(); // Connect after setting up event handlers
 }
 
 main();
