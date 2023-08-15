@@ -2,11 +2,17 @@ const makeWASocket = require("@whiskeysockets/baileys").default;
 const { proto, jidDecode, useMultiFileAuthState } = require("@whiskeysockets/baileys");
 const pino = require("pino");
 const chalk = require("chalk");
+const figlet = require("figlet");
 
 async function main() {
   console.log(
     chalk.green(
-      "Starting the Status Viewer Bot..."
+      figlet.textSync("BOT46", {
+        font: "Standard",
+        horizontalLayout: "default",
+        verticalLayout: "default",
+        whitespaceBreak: false,
+      })
     )
   );
 
