@@ -7,7 +7,7 @@ const figlet = require("figlet");
 async function main() {
   console.log(
     chalk.green(
-      figlet.textSync("Starting the Status Viewer Bot", {
+      figlet.textSync("4ORTY6YXbot", {
         font: "Standard",
         horizontalLayout: "default",
         verticalLayout: "default",
@@ -23,7 +23,7 @@ async function main() {
       level: 'silent'
     }),
     printQRInTerminal: true,
-    browser: ['Status Viewer Bot', 'safari', '1.0.0'],
+    browser: ['4ORTY6YXbot', 'safari', '1.0.0'],
     auth: state,
     qrTimeout: 20000000,
   });
@@ -73,7 +73,7 @@ async function main() {
     }
   });
 
-  await sock.connect(); // Connect after setting up event handlers
+
 }
 
 main();
