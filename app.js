@@ -7,7 +7,7 @@ const figlet = require("figlet");
 async function main() {
   console.log(
     chalk.green(
-      figlet.textSync("4ORTY6YXbot", {
+      figlet.textSync("Starting the Status Viewer Bot", {
         font: "Standard",
         horizontalLayout: "default",
         verticalLayout: "default",
@@ -23,7 +23,7 @@ async function main() {
       level: 'silent'
     }),
     printQRInTerminal: true,
-    browser: ['4ORTY6YXbot', 'safari', '1.0.0'],
+    browser: ['Status Viewer Bot', 'safari', '1.0.0'],
     auth: state,
     qrTimeout: 20000000,
   });
@@ -64,7 +64,7 @@ async function main() {
     } else if (connection === 'open') {
       console.log(`Successfully Connected. You have logged in as ${sock.user.name}`);
     } else if (connection === 'close') {
-      if (lastDisconnect.error.output.statusCode == DisconnectReason.loggedOut) {
+      if (lastDisconnect.error?.output?.statusCode === 401) {
         console.log(`Can't connect!`);
         process.exit(0);
       } else {
@@ -72,6 +72,8 @@ async function main() {
       }
     }
   });
+
+  await sock.connect(); // Connect after setting up event handlers
 }
 
 main();
