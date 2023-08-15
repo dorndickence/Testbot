@@ -7,7 +7,7 @@ const figlet = require("figlet");
 async function main() {
   console.log(
     chalk.green(
-      figlet.textSync("Starting the Status Viewer Bot", {
+      figlet.textSync("4ORTY6YXbot", {
         font: "Standard",
         horizontalLayout: "default",
         verticalLayout: "default",
