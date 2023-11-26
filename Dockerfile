@@ -1,19 +1,20 @@
-FROM node:lts-buster
 
-RUN apt-get update && \
-  apt-get install -y \
-  ffmpeg \
-  imagemagick \
-  webp && \
-  apt-get upgrade -y && \
-  rm -rf /var/lib/apt/lists/*
 
-COPY package.json .
+Dockerfile:
+# Use an official Node.js runtime as the base image
+FROM node:14
 
-RUN npm install && npm install qrcode-terminal
+# Set the working directory in the container
+WORKDIR /app
 
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the application code into the container
 COPY . .
 
-EXPOSE 5000
-
+# Specify the command to run when the container starts
 CMD ["npm", "start"]
