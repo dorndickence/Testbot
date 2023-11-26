@@ -1,14 +1,6 @@
-const {
-  BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType
-} = require("@whiskeysockets/baileys");
+const {BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType} = require("@whiskeysockets/baileys");
 const util = require("util");
-const {
-  useMultiFileAuthState,
-  jidDecode,
-  makeInMemoryStore,
-  DisconnectReason,
-  fetchLatestBaileysVersion
-} = require("@whiskeysockets/baileys");
+const {useMultiFileAuthState,jidDecode,makeInMemoryStore,DisconnectReason,fetchLatestBaileysVersion} = require("@whiskeysockets/baileys");
 const logger = require("@whiskeysockets/baileys/lib/Utils/logger").default;
 const pino = require("pino");
 const gp = ["254743445176"];
