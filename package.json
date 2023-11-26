@@ -1,3 +1,15 @@
+{ 
+    "name": "Dornbot",
+    "version": "2.0.0",
+    "description": "WhatsApp Bot",
+    "main": "app.js",
+    "type": "module",
+ 
+    "scripts": {
+        "start": "node app.js",
+  
+    },
+
 {
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
